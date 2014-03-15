@@ -1,0 +1,24 @@
+--- YOURLS-1.7/user/config.php	2014-01-09 22:46:53.000000000 +0200
++++ YOURLS-1.7/user/config.php	2014-03-16 00:02:09.000000000 +0200
+@@ -8,10 +8,10 @@
+  */
+ 
+ /** MySQL database username */
+-define( 'YOURLS_DB_USER', 'your db user name' );
++define( 'YOURLS_DB_USER', 'mysql' );
+ 
+ /** MySQL database password */
+-define( 'YOURLS_DB_PASS', 'your db password' );
++define( 'YOURLS_DB_PASS', '' );
+ 
+ /** The name of the database for YOURLS */
+ define( 'YOURLS_DB_NAME', 'yourls' );
+@@ -29,7 +29,7 @@
+ 
+ /** YOURLS installation URL -- all lowercase and with no trailing slash.
+  ** If you define it to "http://site.com", don't use "http://www.site.com" in your browser (and vice-versa) */
+-define( 'YOURLS_SITE', 'http://site.com' );
++define( 'YOURLS_SITE', '/yourls' );
+ 
+ /** Timezone GMT offset */
+ define( 'YOURLS_HOURS_OFFSET', 0 ); 

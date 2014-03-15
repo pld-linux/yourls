@@ -1,13 +1,14 @@
 Summary:	YOURLS: Your Own URL Shortener
 Name:		yourls
 Version:	1.7
-Release:	0.1
+Release:	0.3
 License:	MIT
 Group:		Applications/WWW
 Source0:	https://github.com/YOURLS/YOURLS/archive/%{version}/%{name}-%{version}.tar.gz
 # Source0-md5:	171ea94dc65d1d4f8c7e857a8b650ae1
 Source1:	apache.conf
 Source2:	lighttpd.conf
+Patch0:		config.patch
 URL:		http://yourls.org/
 BuildRequires:	rpmbuild(macros) >= 1.268
 Requires:	webapps
@@ -34,8 +35,14 @@ URL shortener everyone uses.
 
 %prep
 %setup -q -n YOURLS-%{version}
-
 mv user/config{-sample,}.php
+
+%patch0 -p1
+
+# do not obfuscate
+rm user/index.html
+rm user/plugins/index.html
+rm user/languages/index.html
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -43,6 +50,8 @@ install -d $RPM_BUILD_ROOT%{_sysconfdir}
 install -d $RPM_BUILD_ROOT{%{_sysconfdir},%{_appdir}}
 
 cp -a . $RPM_BUILD_ROOT%{_appdir}
+mv $RPM_BUILD_ROOT{%{_appdir}/user,%{_sysconfdir}}/config.php
+ln -s %{_sysconfdir}/config.php $RPM_BUILD_ROOT%{_appdir}/user
 
 cp -p %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/apache.conf
 cp -p %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/lighttpd.conf
@@ -76,5 +85,5 @@ rm -rf $RPM_BUILD_ROOT
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/apache.conf
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/httpd.conf
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/lighttpd.conf
-#%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/*.php
+%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/config.php
 %{_appdir}
