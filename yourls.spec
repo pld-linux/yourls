@@ -37,7 +37,7 @@ URL shortener everyone uses.
 %setup -q -n YOURLS-%{version}
 mv user/config{-sample,}.php
 
-%patch0 -p1
+%patch -P0 -p1
 
 # do not obfuscate
 rm user/index.html
